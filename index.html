@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$SOLANO - The World Changer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Define the custom Solana colors */
+        :root {
+            --solana-purple: #9945FF;
+            --solana-dark-purple: #7a36cc; 
+        }
+        .solana-bg { background-color: var(--solana-purple); }
+        .solana-text { color: var(--solana-purple); }
+        .solana-border { border-color: var(--solana-purple); }
+        .solana-dark-bg { background-color: var(--solana-dark-purple); }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fff;
+            color: #000;
+            scroll-behavior: smooth;
+            overflow-x: hidden; /* To prevent horizontal scroll from floating logos */
+            position: relative; /* Fontos a teljes oldalon lévő abszolút pozícionáláshoz */
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Permanent Marker', cursive;
+            text-shadow: 4px 4px #000; 
+            color: var(--solana-purple); /* Purple titles */
+        }
+        
+        /* Navigation Links */
+        .nav-link {
+            font-family: 'Permanent Marker', cursive;
+            color: var(--solana-purple); 
+            transition: color 0.2s, background-color 0.2s, transform 0.2s, text-shadow 0.2s;
+            text-shadow: 2px 2px #000;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            border: 3px solid transparent;
+        }
+        .nav-link:hover {
+            color: #fff; 
+            background-color: var(--solana-purple);
+            border: 3px solid #000; 
+            text-shadow: none; 
+            transform: scale(1.05);
+        }
+
+        /* Custom animation for buttons and hover effects */
+        .btn-meme {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            box-shadow: 6px 6px #000;
+        }
+        .btn-meme:hover {
+            transform: translate(-3px, -3px) scale(1.02);
+            box-shadow: 9px 9px #000;
+        }
+
+        /* CA Button - black background, purple text */
+        .ca-button {
+            background-color: #000;
+            color: var(--solana-purple);
+            box-shadow: 4px 4px var(--solana-purple); 
+            border: 2px solid var(--solana-purple);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .ca-button:hover {
+            background-color: var(--solana-purple);
+            color: #000;
+            box-shadow: 6px 6px #000;
+            transform: translate(-2px, -2px);
+        }
+
+        /* Toast Notification */
+        .toast-notification {
+            background-color: var(--solana-purple);
+            color: #000;
+            font-family: 'Inter', sans-serif;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* SOLANO text animation (repurposed for simple bounce) */
+        @keyframes bounce-solano {
+            0%, 100% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.05) translateY(-5px); }
+            100% { transform: scale(1) translateY(0); }
+        }
+
+        .solano-text-bounce {
+            animation: bounce-solano 1.8s infinite ease-in-out;
+            text-shadow: 6px 6px #000, 0 0 20px var(--solana-purple);
+            font-size: 6rem;
+            line-height: 1;
+        }
+        @media (max-width: 768px) {
+            .solano-text-bounce {
+                font-size: 4rem; /* Smaller on mobile */
+            }
+        }
+
+
+        /* General section cards (now black with purple accents) */
+        .meme-card {
+            background-color: #000; 
+            color: #fff;
+            border: 4px solid var(--solana-purple); 
+            box-shadow: 8px 8px var(--solana-dark-purple);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border-radius: 1.5rem; /* Smoother, larger radius */
+            padding: 0; /* No padding needed around the image */
+            margin: 0.75rem; 
+            overflow: hidden;
+            display: inline-block; /* For mosaic layout */
+        }
+        .meme-card:hover {
+            transform: translate(-5px, -5px);
+            box-shadow: 12px 12px var(--solana-purple);
+        }
+        .meme-card img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Hero Image Container Styling */
+        .hero-visual-container {
+            border-radius: 2rem; 
+            border: 8px solid #000;
+            box-shadow: 2px 2px 20px rgba(153, 69, 255, 0.5); /* Soft purple shadow */
+            overflow: hidden;
+            background-color: #000;
+            display: inline-block; 
+            max-width: 100%; 
+            height: auto;
+            margin: 0 auto; 
+        }
+        
+        /* Hero Image Styling: object-contain, hogy ne vágja le a képet és ne nyújtsa szét */
+        .hero-visual-container img {
+            max-width: 100%;
+            height: auto; 
+            object-fit: contain; 
+            display: block; 
+        }
+
+
+        /* Custom X Icon styling */
+        .x-logo-custom {
+            border: 3px solid #000;
+            background-color: #fff; 
+            box-shadow: 4px 4px #000;
+            transition: all 0.2s;
+            border-radius: 1rem;
+        }
+        .x-logo-custom:hover {
+             transform: translate(-2px, -2px);
+             box-shadow: 6px 6px var(--solana-purple);
+        }
+        .x-logo-custom svg {
+            fill: #000;
+        }
+        .x-logo-custom:hover svg {
+            fill: var(--solana-purple);
+        }
+
+        /* Banner (no flashing, static background) */
+        .banner-background {
+            background-image: url('https://pbs.twimg.com/community_banner_img/1981327934401953792/zKiBuZM3?format=jpg&name=small');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2rem; 
+        }
+        
+        @media (min-width: 768px) {
+            .banner-background {
+                min-height: 350px;
+            }
+        }
+
+        /* Floating Background Logos */
+        @keyframes float {
+            0% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-15px) scale(1.05); }
+            100% { transform: translateY(0px) scale(1); }
+        }
+        .floating-logo {
+            position: absolute;
+            opacity: 0.35; 
+            z-index: -10; 
+            animation: float 6s ease-in-out infinite;
+            pointer-events: none; 
+            transform-origin: center center; 
+        }
+
+        /* NEW: Shake and Pulse animation for main CTA button */
+        @keyframes shake-and-pulse {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); box-shadow: 6px 6px #000; }
+            10%, 30%, 50%, 70%, 90% { transform: translateY(0) rotate(-1deg) scale(1.01); }
+            20%, 40%, 60%, 80% { transform: translateY(0) rotate(1deg) scale(1.01); }
+            50% { transform: translateY(0) rotate(0deg) scale(1.02); box-shadow: 8px 8px var(--solana-purple); } /* slight pulse */
+        }
+        .cta-shake:hover {
+            animation: shake-and-pulse 1s ease-in-out infinite;
+        }
+        
+    </style>
+    
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</head>
+<body class="min-h-screen">
+
+    
+
+<script>
+        // CONSTANTS
+        const CONTRACT_ADDRESS = '6AiuSc3pYM5rpbKPq8JfSQoMoUsfDpzvP5PmMSEKpump';
+        const TICKER = '$SOLANO';
+
+        // Function to copy CA to clipboard
+        function copyCA() {
+            try {
+                navigator.clipboard.writeText(CONTRACT_ADDRESS).then(() => {
+                    showToast('Contract Address Copied! ' + TICKER + '!');
+                }).catch(() => {
+                    const el = document.createElement('textarea');
+                    el.value = CONTRACT_ADDRESS;
+                    el.setAttribute('readonly', '');
+                    el.style.position = 'absolute';
+                    el.style.left = '-9999px';
+                    document.body.appendChild(el);
+                    el.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(el);
+                    showToast('Contract Address Copied! ' + TICKER + '!');
+                });
+            } catch (err) {
+                showToast('Copy failed. Manual copy: ' + CONTRACT_ADDRESS, true);
+            }
+        }
+
+        // Function to show a custom toast notification
+        function showToast(message, isError = false) {
+            const toastContainer = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification fixed bottom-5 right-5 z-[100] p-4 rounded-xl shadow-2xl transition-all duration-300 transform translate-y-full opacity-0 ' +
+                              (isError ? 'bg-red-600 text-white' : 'solana-bg text-black'); // Use solana-bg
+            toast.textContent = message;
+
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-full', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-full', 'opacity-0');
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+
+        // Smooth scrolling for navigation links
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Floating Background Logos - JavaScript generation
+            const logoSrc = "https://pbs.twimg.com/media/G3-J4NWWYAAcFeO?format=jpg&name=large";
+            const numLogos = 30; 
+            const logoContainer = document.body;
+            
+            // Wait for the full page to load to calculate total height correctly
+            window.addEventListener('load', () => {
+                const totalHeight = logoContainer.scrollHeight;
+                const totalWidth = logoContainer.scrollWidth;
+                const logoMinSize = 64; 
+                const logoMaxSize = 128; 
+                const minDistance = 150; // Növelt távolság a logók között
+
+                let placedLogos = [];
+
+                for (let i = 0; i < numLogos; i++) {
+                    let newLogo;
+                    let validPosition = false;
+                    let attempts = 0;
+                    const maxAttempts = 100; 
+
+                    while (!validPosition && attempts < maxAttempts) {
+                        const size = logoMinSize + Math.random() * (logoMaxSize - logoMinSize);
+                        // A pozíciót úgy állítjuk be, hogy ne lógjon ki a konténerből
+                        const top = Math.random() * (totalHeight - size); 
+                        const left = Math.random() * (totalWidth - size);
+
+                        newLogo = { top, left, size, id: i }; 
+
+                        validPosition = true;
+                        for (const existingLogo of placedLogos) {
+                            const dx = (newLogo.left + newLogo.size / 2) - (existingLogo.left + existingLogo.size / 2);
+                            const dy = (newLogo.top + newLogo.size / 2) - (existingLogo.top + existingLogo.size / 2);
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+
+                            if (distance < (newLogo.size / 2 + existingLogo.size / 2 + minDistance)) {
+                                validPosition = false;
+                                break;
+                            }
+                        }
+                        attempts++;
+                    }
+
+                    if (validPosition && newLogo) {
+                        placedLogos.push(newLogo);
+
+                        const logoElement = document.createElement('img');
+                        logoElement.src = logoSrc;
+                        logoElement.alt = "$SOLANO Background Logo";
+                        logoElement.className = `floating-logo rounded-full object-cover`; 
+                        
+                        const delay = Math.random() * 8; 
+                        const duration = 5 + Math.random() * 5; 
+
+                        logoElement.style.width = `${newLogo.size}px`;
+                        logoElement.style.height = `${newLogo.size}px`;
+                        logoElement.style.top = `${newLogo.top}px`;
+                        logoElement.style.left = `${newLogo.left}px`;
+                        logoElement.style.animationDelay = `${delay}s`;
+                        logoElement.style.animationDuration = `${duration}s`;
+
+                        logoContainer.appendChild(logoElement);
+                    }
+                }
+            });
+        });
+    </script>
+
+    
+
+<div id="toast-container"></div>
+
+    
+
+<nav class="sticky top-0 z-40 w-full bg-black bg-opacity-95 backdrop-blur-sm border-b-8 border-solana-purple p-4 md:p-5 shadow-2xl shadow-black/50">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+            
+            
+
+<div class="flex items-center space-x-4">
+                <img src="https://pbs.twimg.com/media/G3-J4NWWYAAcFeO?format=jpg&name=large" alt="SOLANO Profile" class="w-12 h-12 md:w-16 md:h-16 rounded-full border-4 border-solana-purple object-cover shadow-lg btn-meme" onerror="this.onerror=null;this.src='https://placehold.co/64x64/9945FF/FFF?text=SOL'">
+
+                <div class="text-4xl md:text-5xl font-black solana-text tracking-widest text-shadow-xl" style="font-family: 'Permanent Marker', cursive; text-shadow: 4px 4px #000;">
+                    $SOLANO
+                </div>
+            </div>
+
+            
+
+<div class="flex flex-wrap justify-center space-x-2 md:space-x-4 text-xl font-bold">
+                <a href="#about" class="nav-link">ABOUT</a>
+                <a href="#memes" class="nav-link">MEMES</a>
+                <a href="#buy" class="nav-link">BUY</a>
+                <a href="#chart" class="nav-link">CHART</a>
+            </div>
+
+            
+
+<div class="flex items-center space-x-4">
+                
+                
+
+<div class="flex rounded-xl overflow-hidden shadow-xl btn-meme ca-button">
+                    <span class="p-2 md:px-3 text-sm md:text-base font-mono border-r-2 border-black hidden sm:block">CA:</span>
+                    <button onclick="copyCA()" class="p-2 md:px-3 text-sm md:text-base font-bold whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px] sm:max-w-none hover:text-white transition duration-200">
+                        6AiuSc...pump
+                    </button>
+                    <button onclick="copyCA()" class="bg-black text-white p-2 md:px-3 font-bold hover:bg-white hover:text-black transition duration-200 text-sm md:text-base">
+                        COPY!
+                    </button>
+                </div>
+
+                
+
+<a href="https://x.com/Solanocult" target="_blank" rel="noopener noreferrer" class="p-2 md:p-3 rounded-xl x-logo-custom btn-meme">
+                    <svg class="x-icon w-7 h-7" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M18.901 1.144h3.68l-8.52 10.99 9.38 11.536h-7.85l-6.52-8.39-8.48 8.39h-3.69l9.31-9.28L.421 1.144h7.94l5.44 6.94L18.901 1.144zM16.945 20.3L4.99 3.65h-1.6l12.45 16.65h1.1z"/>
+                    </svg>
+                </a>
+            </div>
+
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        
+
+<section id="hero" class="min-h-[80vh] flex flex-col items-center justify-center text-center pt-24 pb-12">
+            <div class="w-full max-w-5xl bg-white p-4 md:p-8 rounded-[3rem] shadow-2xl shadow-black/30">
+                
+                
+
+<div class="hero-visual-container">
+                    <img src="https://pbs.twimg.com/media/G39wCx_XQAA4Rjy?format=jpg&name=large" alt="Solano Hero Image">
+                </div>
+
+                
+
+<h1 class="text-6xl sm:text-8xl md:text-9xl font-extrabold mt-8 tracking-tighter solano-text-bounce">
+                    $SOLANO
+                </h1>
+                <p class="text-black text-lg md:text-2xl mt-4 font-bold font-inter" style="text-shadow: 2px 2px #fff;">THE COIN THAT FIXES SPINAL MISALIGNMENT.</p>
+
+                
+
+<button onclick="copyCA()" class="mt-8 px-12 py-5 solana-bg text-black text-3xl font-black rounded-full btn-meme cta-shake hover:solana-dark-bg">
+                    JOIN THE CULT! BUY $SOLANO!
+                </button>
+            </div>
+        </section>
+
+        
+
+<section id="about" class="py-16 md:py-24 max-w-4xl mx-auto text-center">
+            <h2 class="text-5xl md:text-7xl mb-8 uppercase">WHAT IS SOLANO?</h2>
+
+            
+
+<div class="w-full mb-12 p-0 border-8 border-solana-purple rounded-xl shadow-2xl shadow-black/50 banner-background">
+                
+
+</div>
+            
+
+<div class="meme-card p-8 rounded-3xl">
+                <p class="text-xl md:text-2xl leading-relaxed font-inter">
+                    **Solano will unite the world, solve world peace, and fix my spinal misalignment on its way to rip past $1,000.**
+                </p>
+                <p class="text-lg text-gray-400 mt-4 font-inter">
+                    This is the way. Believe in the purple power. Embrace the cult.
+                </p>
+            </div>
+        </section>
+        
+        
+
+<section id="featured-post" class="py-16 md:py-24 max-w-xl mx-auto text-center">
+            <h2 class="text-5xl md:text-7xl mb-12 uppercase">FEATURED POST</h2>
+            <div class="p-4 bg-black border-8 border-solana-purple rounded-3xl shadow-2xl shadow-black/50">
+                <div class="text-white font-inter text-lg">
+                    
+
+<blockquote class="twitter-tweet" data-dnt="true" data-theme="dark">
+                        <p lang="en" dir="ltr">Solana is the home of incredible things. Things like this: <a href="https://t.co/R2t9W1qjS0">pic.twitter.com/R2t9W1qjS0</a></p>&mdash; Anatoly Yakovenko (@aeyakovenko) 
+                        <a href="https://twitter.com/aeyakovenko/status/1981373205542817802?ref_src=twsrc%5Etfw">February 19, 2025</a>
+                    </blockquote> 
+                </div>
+            </div>
+        </section>
+
+        
+
+<section id="memes" class="py-16 md:py-24">
+            <h2 class="text-5xl md:text-7xl mb-12 uppercase text-center">SOLANO MEMES</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
+                
+                <div class="meme-card">
+                    <img src="https://pbs.twimg.com/media/G3-Z3yoXwAAMdTN?format=jpg&name=small" alt="Solano Meme 1">
+                </div>
+
+                <div class="meme-card">
+                    <img src="https://pbs.twimg.com/media/G3982cqW4AAwXfi?format=jpg&name=small" alt="Solano Meme 2">
+                </div>
+
+                <div class="meme-card">
+                    <img src="https://pbs.twimg.com/media/G3-Ifl9XcAE7Lq4?format=jpg&name=large" alt="Solano Meme 3">
+                </div>
+
+                <div class="meme-card">
+                    <img src="https://pbs.twimg.com/media/G39z9JaWAAAzyZM?format=jpg&name=large" alt="Solano Meme 4">
+                </div>
+
+                <div class="meme-card">
+                    <img src="https://pbs.twimg.com/media/G39eQp4WkAAmKkf?format=jpg&name=large" alt="Solano Meme 5">
+                </div>
+
+                <div class="meme-card">
+                    <img src="https://pbs.twimg.com/media/G38orfHXMAAgdWN?format=jpg&name=large" alt="Solano Meme 6">
+                </div>
+
+            </div>
+        </section>
+
+        
+
+<section id="buy" class="py-16 md:py-24 max-w-4xl mx-auto">
+            <h2 class="text-5xl md:text-7xl mb-12 uppercase text-center">HOW TO GET $SOLANO</h2>
+            
+            <ol class="space-y-8">
+                
+                <li class="flex flex-col md:flex-row items-start meme-card p-6 rounded-3xl border-l-8 border-white">
+                    <div class="text-5xl font-black solana-text mr-6 mb-4 md:mb-0 text-shadow-lg">1.</div>
+                    <div>
+                        <h3 class="text-3xl mb-2">GET A SOLANA WALLET</h3>
+                        <p class="text-gray-300 font-inter">Phantom, Solflare, or Trust Wallet are your friends! Fund it with some sweet, sweet SOL.</p>
+                    </div>
+                </li>
+
+                <li class="flex flex-col md:flex-row items-start meme-card p-6 rounded-3xl border-l-8 border-white">
+                    <div class="text-5xl font-black solana-text mr-6 mb-4 md:mb-0 text-shadow-lg">2.</div>
+                    <div>
+                        <h3 class="text-3xl mb-2">COPY THE CA (MIND BLOWN)</h3>
+                        <p class="text-gray-300 font-inter">Hit that glorious 'COPY!' button in the header or right here! This is the ONE TRUE contract address: <span class="font-mono text-base solana-text" id="full-ca-buy">6AiuSc3pYM5rpbKPq8JfSQoMoUsfDpzvP5PmMSEKpump</span></p>
+                    </div>
+                </li>
+
+                <li class="flex flex-col md:flex-row items-start meme-card p-6 rounded-3xl border-l-8 border-white">
+                    <div class="text-5xl font-black solana-text mr-6 mb-4 md:mb-0 text-shadow-lg">3.</div>
+                    <div>
+                        <h3 class="text-3xl mb-2">SWAP SOL FOR $SOLANO (WOAH!)</h3>
+                        <p class="text-gray-300 font-inter">Head over to Raydium, Jupiter, or Pump.fun! Paste the CA, set slippage to 0.5% - 1% (because we're smooth operators), and get ready to be SOLANO'd!</p>
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        
+
+<section id="chart" class="py-16 md:py-24 max-w-7xl mx-auto">
+            <h2 class="text-5xl md:text-7xl mb-12 uppercase text-center">WATCH $SOLANO MOON!</h2>
+            <div class="p-2 md:p-4 bg-black border-8 border-solana-purple rounded-xl shadow-2xl shadow-black/50">
+                
+
+<style>#dexscreener-embed{position:relative;width:100%;padding-bottom:125%;}@media(min-width:1400px){#dexscreener-embed{padding-bottom:65%;}}#dexscreener-embed iframe{position:absolute;width:100%;height:100%;top:0;left:0;border:0;}</style><div id="dexscreener-embed"><iframe src="https://dexscreener.com/solana/6AiuSc3pYM5rpbKPq8JfSQoMoUsfDpzvP5PmMSEKpump?embed=1&loadChartSettings=0&chartLeftToolbar=0&chartTheme=dark&theme=light&chartStyle=0&chartType=usd&interval=15"></iframe></div>
+            </div>
+        </section>
+
+    </main>
+
+    
+
+<footer class="mt-12 py-8 border-t-8 border-black solana-bg text-center text-black font-inter text-shadow-sm">
+        <p class="text-sm font-medium">&copy; 2025 $SOLANO. ALL RIGHTS RESERVED. GET SOLANO'D OR GET REKT.</p>
+    </footer>
+
+</body>
+</html>
