@@ -23,8 +23,8 @@
             background-color: #fff;
             color: #000;
             scroll-behavior: smooth;
-            overflow-x: hidden; /* To prevent horizontal scroll from floating logos */
-            position: relative; /* Fontos a teljes oldalon lévő abszolút pozícionáláshoz */
+            overflow-x: hidden;
+            position: relative;
             min-height: 100vh;
         }
 
@@ -152,21 +152,21 @@
 
 
         /* Custom X Icon styling */
-        .x--custom {
+        .x-logo-custom {
             border: 3px solid #000;
             background-color: #fff; 
             box-shadow: 4px 4px #000;
             transition: all 0.2s;
             border-radius: 1rem;
         }
-        .x--custom:hover {
+        .x-logo-custom:hover {
              transform: translate(-2px, -2px);
              box-shadow: 6px 6px var(--solana-purple);
         }
-        .x--custom svg {
+        .x-logo-custom svg {
             fill: #000;
         }
-        .x--custom:hover svg {
+        .x-logo-custom:hover svg {
             fill: var(--solana-purple);
         }
 
@@ -190,21 +190,74 @@
                 min-height: 350px;
             }
         }
+        
+        /* MOBIL OPTIMIZATION OVERRIDES (Max-width 767px) */
+        @media (max-width: 767px) {
+            /* 1. Optimize Nav Bar for Mobile */
+            nav {
+                padding: 0.75rem; /* Smaller padding */
+            }
 
-        /* Floating Background s */
-        @keyframes float {
-            0% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-15px) scale(1.05); }
-            100% { transform: translateY(0px) scale(1); }
+            /* Flex container in nav: now column-based, centered elements */
+            .container > div {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem; /* Reduced gap */
+            }
+
+            /* $SOLANO title size adjustment */
+            .container > div > .flex:first-child .text-4xl {
+                font-size: 2.5rem; /* Title smaller */
+            }
+            .container > div > .flex:first-child .w-12 {
+                width: 3rem; /* Logo smaller */
+                height: 3rem;
+            }
+            
+            /* Nav Links (make them stack vertically without wrapping) */
+            .container > div:nth-child(2) {
+                flex-direction: row; /* Keep links in a row but allow wrapping */
+                justify-content: center;
+                margin-top: 0.5rem;
+                margin-bottom: 0.5rem;
+                gap: 0.25rem; /* Smaller gap between links */
+            }
+            .nav-link {
+                font-size: 0.8rem; /* Links smaller */
+                padding: 0.2rem 0.4rem;
+                text-shadow: none;
+            }
+
+            /* CA Button Group (make it full width and stack elements slightly differently) */
+            .container > div:last-child {
+                width: 100%;
+                justify-content: space-between; /* Space out the CA button and X icon */
+                gap: 0.5rem;
+            }
+            .ca-button {
+                flex-grow: 1; /* Take up available space */
+                max-width: none !important; 
+            }
+            .ca-button span, .ca-button button {
+                font-size: 0.75rem; /* Smaller text inside CA button */
+                padding: 0.5rem 0.5rem;
+            }
+            .ca-button span.hidden { /* Re-display CA label on smaller screens */
+                display: block !important;
+                border-right: 1px solid #000;
+            }
+            .ca-button button:first-of-type {
+                max-width: 100px; /* Limit address width */
+            }
+            .x-logo-custom {
+                padding: 0.5rem;
+            }
+            .x-logo-custom svg {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
         }
-        .floating- {
-            position: absolute;
-            opacity: 0.35; 
-            z-index: -10; 
-            animation: float 6s ease-in-out infinite;
-            pointer-events: none; 
-            transform-origin: center center; 
-        }
+
 
         /* NEW: Shake and Pulse animation for main CTA button */
         @keyframes shake-and-pulse {
@@ -283,72 +336,7 @@
                     });
                 });
             });
-
-            // Floating Background Logos - JavaScript generation
-            const logoSrc = "https://pbs.twimg.com/media/G3-J4NWWYAAcFeO?format=jpg&name=large";
-            const numLogos = 30; 
-            const logoContainer = document.body;
-            
-            // Wait for the full page to load to calculate total height correctly
-            window.addEventListener('load', () => {
-                const totalHeight = logoContainer.scrollHeight;
-                const totalWidth = logoContainer.scrollWidth;
-                const logoMinSize = 64; 
-                const logoMaxSize = 128; 
-                const minDistance = 150; // Növelt távolság a logók között
-
-                let placedLogos = [];
-
-                for (let i = 0; i < numLogos; i++) {
-                    let newLogo;
-                    let validPosition = false;
-                    let attempts = 0;
-                    const maxAttempts = 100; 
-
-                    while (!validPosition && attempts < maxAttempts) {
-                        const size = logoMinSize + Math.random() * (logoMaxSize - logoMinSize);
-                        // A pozíciót úgy állítjuk be, hogy ne lógjon ki a konténerből
-                        const top = Math.random() * (totalHeight - size); 
-                        const left = Math.random() * (totalWidth - size);
-
-                        newLogo = { top, left, size, id: i }; 
-
-                        validPosition = true;
-                        for (const existingLogo of placedLogos) {
-                            const dx = (newLogo.left + newLogo.size / 2) - (existingLogo.left + existingLogo.size / 2);
-                            const dy = (newLogo.top + newLogo.size / 2) - (existingLogo.top + existingLogo.size / 2);
-                            const distance = Math.sqrt(dx * dx + dy * dy);
-
-                            if (distance < (newLogo.size / 2 + existingLogo.size / 2 + minDistance)) {
-                                validPosition = false;
-                                break;
-                            }
-                        }
-                        attempts++;
-                    }
-
-                    if (validPosition && newLogo) {
-                        placedLogos.push(newLogo);
-
-                        const logoElement = document.createElement('img');
-                        logoElement.src = logoSrc;
-                        logoElement.alt = "$SOLANO Background Logo";
-                        logoElement.className = `floating-logo rounded-full object-cover`; 
-                        
-                        const delay = Math.random() * 8; 
-                        const duration = 5 + Math.random() * 5; 
-
-                        logoElement.style.width = `${newLogo.size}px`;
-                        logoElement.style.height = `${newLogo.size}px`;
-                        logoElement.style.top = `${newLogo.top}px`;
-                        logoElement.style.left = `${newLogo.left}px`;
-                        logoElement.style.animationDelay = `${delay}s`;
-                        logoElement.style.animationDuration = `${duration}s`;
-
-                        logoContainer.appendChild(logoElement);
-                    }
-                }
-            });
+            // Nincs Floating Background Logó generálás
         });
     </script>
 
